@@ -18,7 +18,7 @@
 #### Step 5: Set API Routes
 #### Step 6: Configure JWT Guard
 #### Step 7: Create Products Model & Controller
-```php artisan make:model Post -m```
+```php artisan make:model Product -m```
 ```php artisan make:controller Api/PostController --api```
 #### The last use Comment to generat to database
 ```Run migration:```
