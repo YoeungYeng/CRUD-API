@@ -21,3 +21,4 @@
 ```php artisan make:controller Api/PostController --api```
 #### The last use Comment to generat to database
 ```Run migration:```
+## note: I use sqlite database
