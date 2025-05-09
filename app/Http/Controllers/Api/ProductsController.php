@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProductsController extends Controller
 {
@@ -12,7 +15,13 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        //
+        // get all products
+        $product = Product::all();
+        return response()->json([
+            'status' => true,
+            'message' => 'Products retrieved successfully',
+            'data' => $product
+        ]);
     }
 
     /**
@@ -20,7 +29,53 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validate request
+        try {
+            $product = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'description' => 'required|string|max:255',
+                'price' => 'required|numeric',
+                'qty' => 'required|integer',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+            // check if validation fails
+            if ($product->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validation failed',
+                    'errors' => $product->errors()
+                ], 422);
+            }
+
+            // Save image to database
+            if ($request->hasFile('image')) {
+                $image_path = $request->file('image')->store('product/image', 'public'); // Store in storage/app/public/images
+                $image_url = asset('storage/' . $image_path); // Convert to URL
+            } else {
+                $image_url = null;
+            }
+
+            // create product
+            $product = Product::create([
+                'name' => $request->name,
+                'description' => $request->description,
+                'price' => $request->price,
+                'qty' => $request->qty,
+                'image' => $image_url,	
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Product created successfully',
+                'data' => $product
+            ], 201);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Product creation failed',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
