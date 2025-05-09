@@ -23,3 +23,5 @@
 #### The last use Comment to generat to database
 ```Run migration:```
 ## note: I use sqlite database
+### note: image to link
+```php artisan storage:link```
