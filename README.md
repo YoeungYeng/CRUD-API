@@ -11,7 +11,8 @@
   ```php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"```
   ##### Generate JWT secret:
   ```php artisan jwt:secret```
-#### Step 3: Configure User Model
+#### Step 3: Install api
+  ```php artisan install:api```
 ####  Step 4: Set up Auth Controller
   ```php artisan make:controller Api/AuthController```
 #### Step 5: Set API Routes
