@@ -25,3 +25,8 @@
 ## note: I use sqlite database
 ### note: image to link
 ```php artisan storage:link```
+
+### after clone from gitub but not file .env
+```cp .env.example .env````& ```copy .env.example .env```
+#### after that 
+```php artisan key:generate```
